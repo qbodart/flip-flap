@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multiplication and Division Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        .hidden {
+            visibility: hidden;
+            width: 0px;
+            height: 0px;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            width: 40vw;
+            min-width: 300px;
+        }
+
+        #tables {
+            height: 180px;
+            width: 150px;
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(var(--grid-size), 1fr);
+            grid-template-rows: repeat(var(--grid-size), 1fr);
+            gap: 2px;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        #grid button {
+            width: 80px;
+            height: 80px;
+            padding: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .start-button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            /* green color */
+            background-color: #4CAF50;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="form-wrapper">
+        <form id="tableForm">
+            <div class="form-row">
+                <label for="tables">Tafels:</label>
+                <select id="tables" multiple>
+                    <option value="1" selected>Tafel van 1</option>
+                    <option value="2" selected>Tafel van 2</option>
+                    <option value="3">Tafel van 3</option>
+                    <option value="4" selected>Tafel van 4</option>
+                    <option value="5" selected>Tafel van 5</option>
+                    <option value="6">Tafel van 6</option>
+                    <option value="7">Tafel van 7</option>
+                    <option value="8">Tafel van 8</option>
+                    <option value="9">Tafel van 9</option>
+                    <option value="10" selected>Tafel van 10</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="gridSize">Grid maat:</label>
+                <input id="gridSize" type="number" min="1" max="10" value="5">
+            </div>
+            <div class="form-row">
+                <label for="time">Tijd (in seconden):</label>
+                <input id="time" type="number" min="1" value="250">
+            </div>
+            <div class="form-row">
+                <label for="operator">Deel en/of maal:</label>
+                <select id="operator" multiple>
+                    <option value="x" selected>Maal</option>
+                    <option value=":" selected>Deel</option>
+                </select>
+            </div>
+            <button type="submit" class="start-button">Start spel!</button>
+        </form>
+    </div>
+    <div id="wrapper">
+        <div id="timer"></div>
+        <div id="grid"></div>
+    </div>
+    <script src="game.js"></script>
+</body>
+
+</html>
