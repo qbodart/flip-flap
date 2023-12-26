@@ -2,6 +2,17 @@
 // game.js
 document.getElementById('tableForm').addEventListener('submit', startGame);
 
+const popup = document.getElementById("popup");
+window.onclick = function(event) {
+    if (event.target == popup) {
+        popup.style.display = "none";
+    }
+}
+
+function closePopup() {
+    popup.style.display = "none";
+}
+
 function startGame(event) {
     event.preventDefault();
     document.getElementById('form-wrapper').classList.add('hidden');
@@ -19,26 +30,45 @@ function startGame(event) {
     // set the background image of the grid to random square image from web service on them harry potter 
     grid.style.setProperty('background-image', `url("https://source.unsplash.com/featured/?harry,potter,${Math.random()}")`);
     grid.innerHTML = '';
+
+    const computationSpan = document.getElementById('computation');
+    
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
             const button = document.createElement('button');
             const table = selectedTables[Math.floor(Math.random() * selectedTables.length)];
             const number = Math.floor(Math.random() * 10) + 1;
             const operator = operators[Math.floor(Math.random() * operators.length)];
+
             if (operator === 'x') {
                 button.textContent = `${number} ${operator} ${table}`;
             } else {
                 button.textContent = `${table * number} ${operator} ${table}`;
             }
             button.addEventListener('click', () => {
-                const answer = parseInt(prompt(button.textContent));
-                if ((operator === 'x' && answer === table * number) || (operator === ':' && answer === number)) {
-                    button.style.visibility = 'hidden';
+                // prompt the user to answer the question
+                // display poppup with number input field and computation and ok cancel button
+                computationSpan.textContent = button.textContent;
+                const goButton = document.getElementById('go');
+                const clickHandler = () => {
+                    const answer = parseInt(document.getElementById('numberInput').value);
+                    if ((operator === 'x' && answer === table * number) || (operator === ':' && answer === number)) {
+                        button.style.visibility = 'hidden';
+                        document.getElementById('numberInput').value = '';
+                        goButton.removeEventListener('click', clickHandler);
+                    }
+                    // if all buttons are hidden, then show the fireworks
+                    if (Array.from(grid.children).every(child => child.style.visibility === 'hidden')) {
+                        triggerFireworks();
+                    }
+                    popup.style.display = "none";
                 }
-                // if all buttons are hidden, then show the fireworks
-                if (Array.from(grid.children).every(child => child.style.visibility === 'hidden')) {
-                    triggerFireworks();
-                }
+                goButton.addEventListener('click', clickHandler);
+
+                popup.style.display = "block";
+                document.getElementById('numberInput').focus();
+
+
             });
             grid.appendChild(button);
         }
